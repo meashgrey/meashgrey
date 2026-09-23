@@ -1,13 +1,12 @@
-Hi there 🥝, I am AshGrey (directly derived from my Chinese name).
-+ 🍊 [懐尓](https://github.com/huaier007). She is my best friend, my girlfriend, 
-  my wife and my soulmate. She is the eternal spring in my life.
-+ 🫐 I have a [personal website](), where my notes 
-  and resume are hosted.
-+ 🌽 I am still studying in Tsinghua University, a second-year undergraduate 
-  (possibly I will never graduate) in the 
-  [School of Pharmaceutical Science](https://www.sps.tsinghua.edu.cn/spsen/). 
-  I hate school-learning.
-+ 🥦 Currently I am interested in **Type Theory**, **Frontend Toolchain Develop**.
-+ 🥑 Contact me
-  + 💬 WeChat: Huaier [dash] AshGrey
-  + 📭 Email: ashgrey [dot] huaier [at] gmail [at] com
+<p align="center">
+  <a href="https://github.com/huaier007">懐尓</a> ·
+  <a href="https://github.com/AshGreyG">me</a> ·
+  <a href="https://github.com/AshGreyG">resume</a> ·
+  <a href="https://chitin-ide.dev/docs/">projects</a> ·
+  <a href="https://x.com/Huaier_AshGrey">tweets</a>
+</p>
+
+| projects                                          | description                                                                                        |                                           stars                                           |                                         language                                          |
+| :------------------------------------------------ | :------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| [chitin](https://github.com/chitin-dev/chitin)    | 🦀🧪 a modern, agent-native computational chemistry and bioinformatics integrated development suit |  ![stars](https://img.shields.io/github/stars/chitin-dev/chitin?style=flat&color=dea584)  |  ![language](https://img.shields.io/github/languages/top/chitin-dev/chitin?color=dea584)  |
+| [thulium](https://github.com/thulium-dev/thulium) | ☄️☂️ an open-source infohub for THU students                                                       | ![stars](https://img.shields.io/github/stars/thulium-dev/thulium?style=flat&color=00b4ab) | ![language](https://img.shields.io/github/languages/top/thulium-dev/thulium?color=00b4ab) |
