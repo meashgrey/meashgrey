@@ -33,6 +33,10 @@
 
   programs.git = {
     enable = true;
+    settings.user = {
+      name = "ashgrey";
+      email = "ashgrey.huaier@gmail.com";
+    };
   };
 
   programs.alacritty = {
