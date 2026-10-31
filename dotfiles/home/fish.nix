@@ -5,6 +5,10 @@
     enable = true;
     generateCompletions = true;
 
+    interactiveShellInit = ''
+      set -g fish_color_cwd cyan
+    '';
+
     shellAbbrs = {
       nr = "sudo nixos-rebuild";
       nrb = "sudo nixos-rebuild build --flake /etc/nixos#nixos";

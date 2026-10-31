@@ -17,6 +17,13 @@
 
   programs.home-manager.enable = true;
 
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      PS1='\[\e[36m\][\u@\h:\w]\$\[\e[0m\] '
+    '';
+  };
+
   xdg.mimeApps = {
     enable = true;
 
@@ -43,6 +50,8 @@
     enable = true;
 
     settings = {
+      general.import = [ "~/.config/alacritty/dank-theme.toml" ];
+
       window = {
         opacity = 0.95;
         padding = {
