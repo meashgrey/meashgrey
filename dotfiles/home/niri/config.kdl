@@ -225,6 +225,10 @@ animations {
         spring damping-ratio=0.85 stiffness=800 epsilon=0.0001
     }
 }
+window-rule {
+    exclude app-id=r#"(?i)^alacritty$"#
+    opacity 0.95
+}
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules

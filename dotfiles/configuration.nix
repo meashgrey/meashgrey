@@ -141,6 +141,19 @@
 
   # Install firefox.
   programs.firefox.enable = true;
+  programs.firefox.nativeMessagingHosts.packages = [
+    (pkgs.writeTextFile {
+      name = "pywalfox-native-messaging-host";
+      destination = "/lib/mozilla/native-messaging-hosts/pywalfox.json";
+      text = builtins.toJSON {
+        name = "pywalfox";
+        description = "Pywalfox native messaging host";
+        path = "${pkgs.pywalfox-native}/bin/pywalfox";
+        type = "stdio";
+        allowed_extensions = [ "pywalfox@frewacom.org" ];
+      };
+    })
+  ];
 
   programs.clash-verge = {
     enable = true;

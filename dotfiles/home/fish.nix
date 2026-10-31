@@ -5,8 +5,15 @@
     enable = true;
     generateCompletions = true;
 
+    functions.fish_greeting = ''
+      set_color cyan
+      cat ${./fish/greeting.txt}
+      set_color normal
+    '';
+
     interactiveShellInit = ''
       set -g fish_color_cwd cyan
+      set -g fish_color_user cyan
     '';
 
     shellAbbrs = {

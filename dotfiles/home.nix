@@ -17,6 +17,9 @@
 
   programs.home-manager.enable = true;
 
+  # DMS calls pywalfox when it regenerates the wallpaper palette.
+  home.packages = [ pkgs.pywalfox-native ];
+
   programs.bash = {
     enable = true;
     initExtra = ''

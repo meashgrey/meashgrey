@@ -1,6 +1,7 @@
 {
   "currentThemeName": "dynamic",
   "currentThemeCategory": "dynamic",
+  "matugenSmartMode": true,
   "niriLayoutGapsOverride": 15,
   "niriLayoutRadiusOverride": 12,
   "niriLayoutBorderSize": 2,
