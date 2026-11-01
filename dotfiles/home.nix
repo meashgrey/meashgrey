@@ -20,6 +20,21 @@
   # DMS calls pywalfox when it regenerates the wallpaper palette.
   home.packages = [ pkgs.pywalfox-native ];
 
+  xdg.desktopEntries.firefox = {
+    name = "Firefox";
+    genericName = "Web Browser";
+    icon = "firefox";
+    type = "Application";
+    categories = [ "Network" "WebBrowser" ];
+    mimeType = [ "text/html" "x-scheme-handler/http" "x-scheme-handler/https" ];
+    exec = "${pkgs.writeShellScript "firefox-with-stylus" ''
+      if ! ${pkgs.procps}/bin/pgrep -u "$(${pkgs.coreutils}/bin/id -u)" -x firefox >/dev/null; then
+        exec /run/current-system/sw/bin/firefox "$@" "file://${config.xdg.configHome}/stylus/dms-web.user.css"
+      fi
+      exec /run/current-system/sw/bin/firefox "$@"
+    ''} %U";
+  };
+
   programs.bash = {
     enable = true;
     initExtra = ''
