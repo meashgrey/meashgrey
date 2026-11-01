@@ -39,7 +39,7 @@ sync_file() {
 }
 
 sync_file "$config_dir/niri/config.kdl" "$repo_dir/home/niri/config.kdl"
-for fragment in alttab binds colors cursor layout outputs; do
+for fragment in alttab binds cursor layout outputs; do
   sync_file "$config_dir/niri/dms/$fragment.kdl" "$repo_dir/home/niri/dms/$fragment.kdl"
 done
 sync_file "$config_dir/DankMaterialShell/settings.json" "$repo_dir/home/dms/settings.json"

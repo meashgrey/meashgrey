@@ -31,7 +31,7 @@ installations, run the synchronization script as the desktop user:
 ~/Projects/nixos-dotfiles/scripts/sync-desktop-config.sh
 ```
 
-The script copies the Niri config and its six included DMS fragments, DMS
+The script copies the Niri config and five included DMS fragments, DMS
 settings, and the Fcitx5 profile into this repository, then requests sudo
 authorization and copies the repository into `/etc/nixos` (excluding `.git`
 and the `result` build link). Existing files with matching names are replaced;
@@ -43,6 +43,12 @@ session state. Review its changes,
 especially monitor settings, paths, and the Fcitx5 input method list. If
 MSIME has not yet been added to the live profile, syncing that profile will
 replace the repository's MSIME default with the current list.
+
+The dynamically generated `home/niri/dms/colors.kdl` is excluded from the
+sync script. Its tracked copy is a first-install seed; DMS updates the live
+file when the theme changes. Generated Matugen output and `bibata-cursor.kdl`
+also stay in the user configuration directory. Templates and the Bibata
+preset palette remain in the repository so the setup can be reproduced.
 
 The `home/niri/dms/*.kdl` files are initial seeds for the includes in
 `config.kdl`. DMS manages the live copies thereafter.
