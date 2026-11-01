@@ -95,12 +95,12 @@
         size = 11.0;
 
         normal = {
-          family = "Cascadia Code";
+          family = "monospace";
           style = "Regular";
         };
 
         bold = {
-          family = "Cascadia Code";
+          family = "monospace";
           style = "Bold";
         };
       };

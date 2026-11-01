@@ -76,12 +76,29 @@ or flake alone does not contain or automatically back up those live changes.
 
 ## Fcitx5 and MSIME
 
+WeTypeX is installed alongside MSIME through the locked `wetypex` flake input.
+Its theme integration is disabled so it does not take over Fcitx5's shared
+candidate-window theme. Existing input-method profiles are not overwritten.
+After switching the system, prepare the official runtime as the desktop user:
+
+```sh
+# Use a copy of the official archive obtained and accepted by the user:
+fcitx5-wetypex-setup --archive /path/to/WeType_2.2.3_657.zip
+fcitx5-wetypex-setup --check
+```
+
+Alternatively, after reviewing and accepting the upstream license, use
+`fcitx5-wetypex-setup --download --accept-upstream-license`. Restart the
+desktop session, then add WeTypeX in Fcitx5 Configuration. The runtime and
+user data stay in `~/.local/share/fcitx5-wetypex/`; the settings are under
+`~/.config/fcitx5/`. They are not included in this repository or flake.
+
 Fcitx5 and its addons are managed by NixOS. The MSIME upstream NixOS module
 installs the Fcitx5 plugin, setup command, and provider user units. The
 user's input method group is seeded from `home/fcitx5/profile` only if no
-profile exists: US keyboard, MSIME (default), Pinyin, and Rime. An existing
-profile is left intact, so MSIME may need to be added using the setup command
-or Fcitx5's GUI. General Fcitx5 settings, learned dictionaries and
+profile exists. The seed includes US keyboard, MSIME (default), WeTypeX, and
+Mozc. An existing profile is left intact, so newly installed input methods
+may need to be added in Fcitx5 Configuration. General Fcitx5 settings, learned dictionaries and
 DMS-generated themes remain user data and are not reset by this configuration.
 
 MSIME's source revision is pinned in `flake.nix` and all flake inputs are

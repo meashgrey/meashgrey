@@ -33,6 +33,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Test the newest kernel available in the locked nixpkgs for ES8336 audio.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -77,8 +80,12 @@
     fcitx5 = {
       addons = with pkgs; [
         qt6Packages.fcitx5-chinese-addons
+        fcitx5-mozc
         fcitx5-rime
         fcitx5-gtk
+        (inputs.wetypex.packages.${pkgs.stdenv.hostPlatform.system}.fcitx5-wetypex.override {
+          enableWeTypeTheme = false;
+        })
       ];
       settings.inputMethod = {
         GroupOrder."0" = "Default";
@@ -93,6 +100,7 @@
         "Groups/0/Items/1".Name = "msime";
         "Groups/0/Items/2".Name = "pinyin";
         "Groups/0/Items/3".Name = "rime";
+        "Groups/0/Items/4".Name = "mozc";
       };
     };
   };
@@ -118,6 +126,14 @@
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = false;
   services.desktopManager.plasma6.enable = false;
+
+  # Use Dux Greeter (formerly DMS Greeter) with Niri instead of LightDM.
+  services.xserver.displayManager.lightdm.enable = false;
+  services.displayManager.dux-greeter = {
+    enable = true;
+    compositor.name = "niri";
+    configHome = "/home/ashgrey";
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -237,10 +253,24 @@
     zoxide
     fastfetch
     onefetch
+
+    # Long-lived development tools
+    python3
+    uv
+    rustc
+    cargo
+    typst
   ];
 
   fonts.packages = with pkgs; [
     cascadia-code
+    noto-fonts-color-emoji
+  ];
+
+  fonts.fontconfig.defaultFonts.emoji = [ "Noto Color Emoji" ];
+  fonts.fontconfig.defaultFonts.monospace = [
+    "Cascadia Code"
+    "emoji"
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

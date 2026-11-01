@@ -179,7 +179,8 @@
         "home-manager": "home-manager",
         "msime": "msime",
         "nixpkgs": "nixpkgs",
-        "nur": "nur"
+        "nur": "nur",
+        "wetypex": "wetypex"
       }
     },
     "rust-overlay": {
@@ -200,6 +201,26 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "wetypex": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793298554,
+        "narHash": "sha256-InTQ6+sCp6bCfi8muGvkNBql65NcpcegddNdSepMdTE=",
+        "owner": "panxuc",
+        "repo": "fcitx5-wetypex",
+        "rev": "af233f39fcc73377861fcfe1c20ba9af685602a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "panxuc",
+        "repo": "fcitx5-wetypex",
         "type": "github"
       }
     }
