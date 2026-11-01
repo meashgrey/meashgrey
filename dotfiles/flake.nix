@@ -50,6 +50,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              extraSpecialArgs = { inherit inputs; };
               users.ashgrey = import ./home.nix;
             };
           }

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   home = {
@@ -16,6 +16,19 @@
   ];
 
   programs.home-manager.enable = true;
+
+  # Keep WeChat's default Documents entry as a link to user data, never the Nix store.
+  home.activation.prepareWechatStorage = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    wechatData=${lib.escapeShellArg "${config.xdg.dataHome}/wechat/xwechat_files"}
+    wechatLink=${lib.escapeShellArg "${config.home.homeDirectory}/Documents/xwechat_files"}
+    run install -d -m 700 "$wechatData"
+    run mkdir -p "$(dirname "$wechatLink")"
+    if [ ! -e "$wechatLink" ] && [ ! -L "$wechatLink" ]; then
+      run ln -s "$wechatData" "$wechatLink"
+    else
+      echo "Keeping existing WeChat storage entry: $wechatLink"
+    fi
+  '';
 
   # DMS calls pywalfox when it regenerates the wallpaper palette.
   home.packages = [ pkgs.pywalfox-native ];

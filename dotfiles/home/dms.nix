@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
   bibataArchive = pkgs.fetchurl {
@@ -18,10 +18,45 @@ let
     tmp="$(${pkgs.coreutils}/bin/mktemp "$file.XXXXXX")"
     printf 'cursor {\n    xcursor-theme "%s"\n}\n' "$theme" > "$tmp"
     ${pkgs.coreutils}/bin/mv -f "$tmp" "$file"
+    cursor_dir=${lib.escapeShellArg "${config.home.homeDirectory}/.icons/default"}
+    cursor_index="$cursor_dir/index.theme"
+    ${pkgs.coreutils}/bin/mkdir -p "$cursor_dir"
+    if [ ! -e "$cursor_index" ] && [ ! -L "$cursor_index" ] ||
+       { [ -f "$cursor_index" ] && [ ! -L "$cursor_index" ] && ${pkgs.gnugrep}/bin/grep -Fxq 'Comment=Managed by DMS Bibata' "$cursor_index"; }; then
+      cursor_tmp="$(${pkgs.coreutils}/bin/mktemp "$cursor_dir/index.theme.XXXXXX")"
+      printf '[Icon Theme]\nName=Default\nComment=Managed by DMS Bibata\nInherits=%s\n' "$theme" > "$cursor_tmp"
+      ${pkgs.coreutils}/bin/mv -f "$cursor_tmp" "$cursor_index"
+    else
+      echo "Preserving existing cursor default: $cursor_index" >&2
+    fi
     ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme "$theme" || true
   '';
 in {
   home.packages = [ bibataThemes ];
+  dconf.settings."org/gnome/desktop/interface".gtk-theme = "adw-gtk3";
+
+  systemd.user.services.dms-gtk-colors = {
+    Unit = {
+      Description = "Apply DMS colors to GTK themes";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "apply-dms-gtk-colors" ''
+        export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.gnugrep pkgs.gnused pkgs.glib pkgs.bash ]}:"$PATH"
+        if [ -f ${lib.escapeShellArg "${config.xdg.configHome}/gtk-4.0/dank-colors.css"} ]; then
+          script=${inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default}/share/quickshell/dms/scripts/gtk.sh
+          "$script" ${lib.escapeShellArg config.xdg.configHome} apply
+          mode="$(${pkgs.glib}/bin/gsettings get org.gnome.desktop.interface color-scheme || true)"
+          light=false
+          case "$mode" in *prefer-light*) light=true;; esac
+          "$script" ${lib.escapeShellArg config.xdg.configHome} patch "$light"
+        fi
+      '';
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
   xdg.configFile."matugen/config.toml".text = ''
     [config]
     [templates.stylus]
@@ -38,6 +73,13 @@ in {
 
   home.activation.createStylusThemeDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${lib.escapeShellArg "${config.xdg.configHome}/stylus"}
+  '';
+
+  # Keep desktop-managed settings writable while adding DMS color integration.
+  home.activation.configureDmsAppColors = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgs.python3}/bin/python3 ${./dms/configure-app-colors.py} \
+      ${lib.escapeShellArg config.xdg.configHome} \
+      ${lib.escapeShellArg "${config.xdg.dataHome}/color-schemes/DankMatugen.colors"}
   '';
 
   # Install defaults only if no user configuration exists.

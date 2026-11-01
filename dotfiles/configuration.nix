@@ -51,7 +51,9 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "America/Chicago";
+  # When it needs to login with American time zone, decomment this
+  # time.timeZone = "America/Chicago";
+  time.timeZone = "Asia/Shanghai";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -96,6 +98,18 @@
   };
 
   programs.msime.enable = true;
+  programs.dconf.enable = true;
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
+  # Install the Qt5 and Qt6 platform plugins used by DMS's qtct themes.
+  qt = {
+    enable = true;
+    platformTheme = "qt5ct";
+  };
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
@@ -200,6 +214,15 @@
     appimage-run
     codex
     vscodium
+    (symlinkJoin {
+      name = "wechat-cursor-size";
+      paths = [ wechat ];
+      nativeBuildInputs = [ makeWrapper ];
+      postBuild = ''
+        wrapProgram "$out/bin/wechat" --set XCURSOR_SIZE 22
+      '';
+    })
+    adw-gtk3
     # GTK currently selects breeze; make the theme available to DMS as well.
     kdePackages.breeze-icons
 

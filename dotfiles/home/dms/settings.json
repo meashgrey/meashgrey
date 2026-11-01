@@ -122,6 +122,8 @@
   },
   "fontFamily": "Cascadia Code",
   "monoFontFamily": "Cascadia Code",
+  "useSystemSoundTheme": true,
+  "soundLogin": true,
   "osdPowerProfileEnabled": true,
   "barConfigs": [
     {
