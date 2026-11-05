@@ -1,14 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
 let
-  bibataArchive = pkgs.fetchurl {
-    url = "https://github.com/SakibShahariar/material-bibata-cursor/releases/download/v1.5.0/bibata-material-dark-v1.5.0.tar.gz";
-    hash = "sha256-igz93WB4fGWgeM5JS1cIwdaPPldhGP3gcBlJ7bQMugQ=";
-  };
-  bibataThemes = pkgs.runCommand "material-bibata-cursors-1.5.0" {} ''
-    mkdir -p "$out/share/icons"
-    tar -xzf ${bibataArchive} --strip-components=1 -C "$out/share/icons"
-  '';
+  bibataThemes = import ./dms/bibata-cursors.nix { inherit pkgs; };
   cursorHook = pkgs.writeShellScript "dms-bibata-cursor" ''
     set -eu
     color="$(${pkgs.coreutils}/bin/cat ${lib.escapeShellArg "${config.xdg.configHome}/matugen/bibata-color"})"
@@ -78,8 +71,11 @@ in {
   # Keep desktop-managed settings writable while adding DMS color integration.
   home.activation.configureDmsAppColors = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run ${pkgs.python3}/bin/python3 ${./dms/configure-app-colors.py} \
-      ${lib.escapeShellArg config.xdg.configHome} \
-      ${lib.escapeShellArg "${config.xdg.dataHome}/color-schemes/DankMatugen.colors"}
+      ${lib.escapeShellArg config.xdg.configHome}
+
+    # KDE Frameworks apps (including Okular) read their active scheme from kdeglobals.
+    run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+      --file kdeglobals --group General --key ColorScheme DankMatugen
   '';
 
   # Install defaults only if no user configuration exists.

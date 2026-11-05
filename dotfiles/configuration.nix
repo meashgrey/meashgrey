@@ -108,6 +108,24 @@
   programs.msime.enable = true;
   programs.dconf.enable = true;
 
+  # Keep Steam's persistent client data and default game library under /var/lib,
+  # outside the user's home directory.
+  programs.steam.enable = true;
+  # UMU's pressure-vessel tools are generic Linux binaries. Provide the ELF
+  # loader and libraries they expect on NixOS.
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      glib
+      libXau
+      json-glib
+      elfutils
+    ];
+  };
+  systemd.tmpfiles.rules = [
+    "d /var/lib/steam/ashgrey/Steam 0700 ashgrey users -"
+  ];
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -166,6 +184,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       kdePackages.kate
+      kdePackages.okular
     ];
   };
 
@@ -225,6 +244,9 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
+    (import ./home/dms/bibata-cursors.nix { inherit pkgs; })
+    inputs.aurelia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.ferref.packages.${pkgs.stdenv.hostPlatform.system}.default
     vim
     wget
     appimage-run
@@ -245,26 +267,43 @@
     # shell tools
     nushell
     alacritty
+    # Niri uses this to provide X11 compatibility for Steam and other XWayland apps.
+    xwayland-satellite
     tmux
     dust
     bottom
     btop
     fzf
     zoxide
+    navi
+    doxx
     fastfetch
     onefetch
+    lazygit
 
     # Long-lived development tools
     python3
     uv
+    touying
+    gcc
     rustc
     cargo
     typst
+    poppler-utils
+  ];
+
+  # Make the installed cursor theme discoverable to XWayland's Xcursor loader.
+  environment.sessionVariables.XCURSOR_PATH = [
+    "/run/current-system/sw/share/icons"
+    "/usr/share/icons"
+    "/usr/share/pixmaps"
   ];
 
   fonts.packages = with pkgs; [
     cascadia-code
     noto-fonts-color-emoji
+    libertinus
+    lxgw-wenkai
   ];
 
   fonts.fontconfig.defaultFonts.emoji = [ "Noto Color Emoji" ];

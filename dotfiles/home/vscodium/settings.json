@@ -1,0 +1,28 @@
+{
+    "workbench.colorTheme": "Dynamic Base16 DankShell (Dark)",
+    "window.menuBarVisibility": "toggle",
+    "terminal.integrated.fontFamily": "Cascadia Code",
+    "terminal.integrated.initialHint": false,
+    "workbench.navigationControl.enabled": false,
+    "workbench.browser.showInTitleBar": false,
+    "window.commandCenter": false,
+    "workbench.statusBar.visible": false,
+    "workbench.iconTheme": "catppuccin-mocha",
+    "editor.fontFamily": "Cascadia Code",
+    "breadcrumbs.enabled": false,
+    "editor.stickyScroll.enabled": false,
+    "editor.cursorSmoothCaretAnimation": "explicit",
+    "workbench.welcomePage.walkthroughs.openOnInstall": false,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "k"],
+            "after": ["<Esc>"]
+        },
+    ],
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["Shift+x"],
+            "command": ["workbench.action.closeActiveEditor"]
+        }
+    ]
+}

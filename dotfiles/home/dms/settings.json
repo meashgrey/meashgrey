@@ -45,7 +45,8 @@
       "id": "brightnessSlider",
       "enabled": true,
       "w": 8,
-      "h": 1
+      "h": 1,
+      "deviceName": "backlight:intel_backlight"
     },
     {
       "id": "wifi",
@@ -283,6 +284,20 @@
     "hslLightness": 1,
     "valid": true,
     "rgba": -1
+  },
+  "builtInPluginSettings": {
+    "dms_settings_search": {
+      "trigger": "?"
+    },
+    "dms_clipboard_search": {
+      "trigger": "cb"
+    },
+    "dms_power": {
+      "trigger": "pw"
+    },
+    "dms_qr_generator": {
+      "trigger": "qrg"
+    }
   },
   "configVersion": 18
 }

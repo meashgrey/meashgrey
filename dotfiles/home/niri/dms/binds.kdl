@@ -32,6 +32,15 @@ binds {
     Mod+7 { focus-workspace 7; }
     Mod+8 { focus-workspace 8; }
     Mod+9 { focus-workspace 9; }
+    Mod+Ctrl+1 { move-window-to-workspace 1; }
+    Mod+Ctrl+2 { move-window-to-workspace 2; }
+    Mod+Ctrl+3 { move-window-to-workspace 3; }
+    Mod+Ctrl+4 { move-window-to-workspace 4; }
+    Mod+Ctrl+5 { move-window-to-workspace 5; }
+    Mod+Ctrl+6 { move-window-to-workspace 6; }
+    Mod+Ctrl+7 { move-window-to-workspace 7; }
+    Mod+Ctrl+8 { move-window-to-workspace 8; }
+    Mod+Ctrl+9 { move-window-to-workspace 9; }
     Mod+Ctrl+Down { move-column-to-workspace-down; }
     Mod+Ctrl+I { move-column-to-workspace-up; }
     Mod+Ctrl+U { move-column-to-workspace-down; }
@@ -70,9 +79,9 @@ binds {
     Mod+Ctrl+J { focus-monitor-down; }
     Mod+Ctrl+K { focus-monitor-up; }
     Mod+Ctrl+L { focus-monitor-right; }
-    Mod+Ctrl+Left { focus-monitor-left; }
+    Mod+Ctrl+Left { move-column-left; }
     Mod+Ctrl+R { reset-window-height; }
-    Mod+Ctrl+Right { focus-monitor-right; }
+    Mod+Ctrl+Right { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp { move-column-left; }
     Mod+Ctrl+WheelScrollLeft { move-column-left; }

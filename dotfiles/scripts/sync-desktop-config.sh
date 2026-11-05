@@ -2,17 +2,19 @@
 set -euo pipefail
 
 usage() {
-  printf 'Usage: %s [--dry-run]\n' "${0##*/}"
+  printf 'Usage: %s [--dry-run] [--pull-only]\n' "${0##*/}"
 }
 
 dry_run=false
-case "${1-}" in
-  '') ;;
-  --dry-run) dry_run=true ;;
-  -h|--help) usage; exit 0 ;;
-  *) usage >&2; exit 2 ;;
-esac
-if (( $# > 1 )); then usage >&2; exit 2; fi
+pull_only=false
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) dry_run=true ;;
+    --pull-only) pull_only=true ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
+  esac
+done
 
 repo_dir=$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
 config_dir=${XDG_CONFIG_HOME:-"$HOME/.config"}
@@ -44,6 +46,8 @@ for fragment in alttab binds cursor layout outputs; do
 done
 sync_file "$config_dir/DankMaterialShell/settings.json" "$repo_dir/home/dms/settings.json"
 sync_file "$config_dir/fcitx5/profile" "$repo_dir/home/fcitx5/profile"
+sync_file "$config_dir/VSCodium/User/settings.json" "$repo_dir/home/vscodium/settings.json"
+sync_file "$config_dir/VSCodium/User/keybindings.json" "$repo_dir/home/vscodium/keybindings.json"
 
 if (( missing )); then
   printf 'Some files were missing; existing repository files were preserved.\n' >&2
@@ -55,6 +59,11 @@ fi
 
 if [[ $dry_run == true ]]; then
   printf 'Would copy the repository to /etc/nixos (excluding .git and result).\n'
+  exit 0
+fi
+
+if [[ $pull_only == true ]]; then
+  printf 'Desktop and VSCodium settings pulled into the repository; no deployment was run.\n'
   exit 0
 fi
 

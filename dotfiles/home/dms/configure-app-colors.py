@@ -5,7 +5,6 @@ import re
 import sys
 
 config = Path(sys.argv[1])
-scheme = sys.argv[2]
 
 for toolkit in ("gtk-3.0", "gtk-4.0"):
     path = config / toolkit / "gtk.css"
@@ -20,6 +19,7 @@ for toolkit in ("gtk-3.0", "gtk-4.0"):
 
 for toolkit in ("qt5ct", "qt6ct"):
     path = config / toolkit / f"{toolkit}.conf"
+    scheme = path.parent / "colors" / "matugen.conf"
     if path.is_symlink():
         print(f"Skipping managed Qt config: {path}", file=sys.stderr)
         continue

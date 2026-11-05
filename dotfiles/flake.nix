@@ -29,6 +29,16 @@
       url = "github:duxlabs-dev/dux-shell/v1.6.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    aurelia = {
+      url = "github:Drackrath/Aurelia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    ferref = {
+      url = "github:meashgrey/ferref/dbc6996d876616731573f3cc280049f9509ee5a2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, nur, dms, ... }@inputs:

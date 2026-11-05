@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 {
   home = {
@@ -15,7 +15,37 @@
     ./home/fish.nix
   ];
 
+  xdg.configFile."fastfetch/config.jsonc".source = ./home/fastfetch/config.jsonc;
+
   programs.home-manager.enable = true;
+
+  # Keep Celeste on its native Linux build and clear Aurelia's per-game UMU pin.
+  # Aurelia owns its runtime config in ~/.config; reapply only this declarative
+  # preference during Home Manager activation instead of tracking that file.
+  home.activation.configureCelesteNative = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${inputs.aurelia.packages.${pkgs.system}.default}/bin/aurelia config game 504230 --platform linux --no-umu
+  '';
+
+  # Steam expects its XDG data directory under ~/.local/share. Keep the actual
+  # data in /var/lib/steam and expose only a symlink in the home directory.
+  home.activation.steamDataOutsideHome = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    steamData=${lib.escapeShellArg "${config.home.homeDirectory}/.local/share/Steam"}
+    steamTarget=/var/lib/steam/ashgrey/Steam
+    run install -d -m 700 "$(dirname "$steamData")"
+    if [ ! -e "$steamData" ] && [ ! -L "$steamData" ]; then
+      run ln -s "$steamTarget" "$steamData"
+    elif [ -L "$steamData" ] && [ "$(readlink "$steamData")" = "$steamTarget" ]; then
+      :
+    else
+      echo "Keeping existing Steam data path: $steamData"
+    fi
+  '';
+
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+  };
 
   # Keep WeChat's default Documents entry as a link to user data, never the Nix store.
   home.activation.prepareWechatStorage = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -59,6 +89,7 @@
     enable = true;
 
     defaultApplications = {
+      "application/pdf" = "org.kde.okular.desktop";
       "text/html" = "firefox.desktop";
       "x-scheme-handler/http" = "firefox.desktop";
       "x-scheme-handler/https" = "firefox.desktop";

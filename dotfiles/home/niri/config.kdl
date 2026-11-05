@@ -225,9 +225,21 @@ animations {
         spring damping-ratio=0.85 stiffness=800 epsilon=0.0001
     }
 }
+blur {
+    passes 3
+    offset 3
+    noise 0.02
+    saturation 1.5
+}
 window-rule {
     exclude app-id=r#"(?i)^alacritty$"#
     opacity 0.95
+}
+// Ask Niri to blur behind all windows; transparency makes the effect visible.
+window-rule {
+    background-effect {
+        blur true
+    }
 }
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
@@ -275,6 +287,10 @@ window-rule {
     match app-id="com.mitchellh.ghostty"
     match app-id="kitty"
     draw-border-with-background false
+}
+window-rule {
+    match app-id="Alacritty"
+    default-column-width { proportion 1.0; }
 }
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"

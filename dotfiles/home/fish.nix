@@ -1,8 +1,8 @@
 { pkgs, ... }:
 
 {
-  # Keep user-installed tools such as uv tool scripts on PATH.
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  # Keep user-installed tools and Cargo-installed binaries on PATH.
+  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.cargo/bin" ];
 
   programs.fish = {
     enable = true;
@@ -31,6 +31,7 @@
     '';
 
     interactiveShellInit = ''
+      fish_add_path --global --path "$HOME/.cargo/bin"
       set -g fish_color_cwd cyan
       set -g fish_color_user cyan
     '';
