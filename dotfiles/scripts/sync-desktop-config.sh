@@ -48,13 +48,18 @@ sync_file "$config_dir/DankMaterialShell/settings.json" "$repo_dir/home/dms/sett
 sync_file "$config_dir/fcitx5/profile" "$repo_dir/home/fcitx5/profile"
 sync_file "$config_dir/VSCodium/User/settings.json" "$repo_dir/home/vscodium/settings.json"
 sync_file "$config_dir/VSCodium/User/keybindings.json" "$repo_dir/home/vscodium/keybindings.json"
+if [[ $dry_run == true ]]; then
+  "$repo_dir/scripts/sync-codex-skills.sh" --dry-run
+else
+  "$repo_dir/scripts/sync-codex-skills.sh"
+fi
 
 if (( missing )); then
   printf 'Some files were missing; existing repository files were preserved.\n' >&2
   exit 1
 fi
 if (( changed )); then
-  printf 'Review changes, including monitor settings, before sharing or using on another machine.\n'
+  printf 'Review synced settings, monitor configuration, and skill content before sharing or using on another machine.\n'
 fi
 
 if [[ $dry_run == true ]]; then
@@ -63,7 +68,7 @@ if [[ $dry_run == true ]]; then
 fi
 
 if [[ $pull_only == true ]]; then
-  printf 'Desktop and VSCodium settings pulled into the repository; no deployment was run.\n'
+  printf 'Desktop settings, VSCodium settings, and Codex skills pulled into the repository; no deployment was run.\n'
   exit 0
 fi
 

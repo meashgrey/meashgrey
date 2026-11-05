@@ -19,12 +19,16 @@
 
   programs.home-manager.enable = true;
 
-  # Keep Celeste on its native Linux build and clear Aurelia's per-game UMU pin.
-  # Aurelia owns its runtime config in ~/.config; reapply only this declarative
-  # preference during Home Manager activation instead of tracking that file.
-  home.activation.configureCelesteNative = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run ${inputs.aurelia.packages.${pkgs.system}.default}/bin/aurelia config game 504230 --platform linux --no-umu
-  '';
+  # Keep Codex user skills in the dotfiles repository and expose them globally.
+  home.file = lib.mapAttrs' (name: _:
+    lib.nameValuePair ".agents/skills/${name}" {
+      source = ./home/skills/${name};
+      force = true;
+    }
+  ) (lib.filterAttrs (name: type:
+    type == "directory"
+    && builtins.pathExists (./home/skills + "/${name}/SKILL.md")
+  ) (builtins.readDir ./home/skills));
 
   # Steam expects its XDG data directory under ~/.local/share. Keep the actual
   # data in /var/lib/steam and expose only a symlink in the home directory.
@@ -102,9 +106,12 @@
 
   programs.git = {
     enable = true;
-    settings.user = {
-      name = "ashgrey";
-      email = "ashgrey.huaier@gmail.com";
+    settings = {
+      user = {
+        name = "ashgrey";
+        email = "ashgrey.huaier@gmail.com";
+      };
+      init.defaultBranch = "main";
     };
   };
 

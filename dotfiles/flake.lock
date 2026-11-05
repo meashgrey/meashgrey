@@ -1,26 +1,5 @@
 {
   "nodes": {
-    "aurelia": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793806771,
-        "narHash": "sha256-4Qli+SJbj4RlECvxUktwfPwSWhA93wfzFLXe/I/1Kl8=",
-        "owner": "Drackrath",
-        "repo": "Aurelia",
-        "rev": "2369ebf165cea1257ba7531c9182a49f75c827cc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Drackrath",
-        "repo": "Aurelia",
-        "type": "github"
-      }
-    },
     "crane": {
       "locked": {
         "lastModified": 1791754810,
@@ -78,23 +57,23 @@
     },
     "ferref": {
       "inputs": {
-        "flake-utils": "flake-utils_2",
+        "flake-utils": "flake-utils",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1792000274,
-        "narHash": "sha256-Y95sxSbMVzi1dYa6KRiOHEXdNeU6zCl5ldUYiz0JhnE=",
+        "lastModified": 1793190575,
+        "narHash": "sha256-/qEdjbRqJKJerOfkzG2YQAbNk/7yNNQKVy4BxQSpVkk=",
         "owner": "meashgrey",
         "repo": "ferref",
-        "rev": "dbc6996d876616731573f3cc280049f9509ee5a2",
+        "rev": "a35a37d1e0bf073e2d71f057f5a2ab441395de6d",
         "type": "github"
       },
       "original": {
         "owner": "meashgrey",
+        "ref": "feat/tui-panel-resize",
         "repo": "ferref",
-        "rev": "dbc6996d876616731573f3cc280049f9509ee5a2",
         "type": "github"
       }
     },
@@ -138,24 +117,6 @@
     "flake-utils": {
       "inputs": {
         "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1791914995,
-        "narHash": "sha256-Zf/xfQEAasnwnmEfHqW/4hjDE/s44yn2hD4RuVIZRjA=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "b7a79d3fea1e214f6d668d521cecec0c01e26544",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_2": {
-      "inputs": {
-        "systems": "systems_2"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -254,7 +215,6 @@
     },
     "root": {
       "inputs": {
-        "aurelia": "aurelia",
         "dms": "dms",
         "ferref": "ferref",
         "home-manager": "home-manager",
@@ -286,21 +246,6 @@
       }
     },
     "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
-    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

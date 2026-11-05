@@ -163,6 +163,8 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
+  # Keep the ES8336 DAC mixer switches enabled across boots.
+  hardware.alsa.enablePersistence = true;
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -245,7 +247,7 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     (import ./home/dms/bibata-cursors.nix { inherit pkgs; })
-    inputs.aurelia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    (callPackage ./packages/steam-tui { })
     inputs.ferref.packages.${pkgs.stdenv.hostPlatform.system}.default
     vim
     wget
@@ -282,6 +284,10 @@
     lazygit
 
     # Long-lived development tools
+    opencode
+    bun
+    nodejs_22
+    (callPackage ./packages/wordcraft { })
     python3
     uv
     touying
