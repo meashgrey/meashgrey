@@ -1,6 +1,9 @@
 #!/bin/sh
 
-rm -f ./*.pdf
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+cd "$script_dir"
+
+rm -f ./resume-frontend-zh.pdf ./resume-frontend-en.pdf
 
 files="
   resume-frontend-zh
@@ -16,7 +19,7 @@ for f in $files; do
   esac
 
   {
-    echo "#import \"./resume/${base}.typ\": *"
+    echo "#import \"./${base}.typ\": *"
     echo "#show: cv"
   } > "$f.typ"
 
