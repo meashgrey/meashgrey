@@ -66,14 +66,14 @@
         "lastModified": 1793190575,
         "narHash": "sha256-/qEdjbRqJKJerOfkzG2YQAbNk/7yNNQKVy4BxQSpVkk=",
         "owner": "meashgrey",
-        "repo": "ferref",
+        "repo": "opensource-thosvarley__ferref",
         "rev": "a35a37d1e0bf073e2d71f057f5a2ab441395de6d",
         "type": "github"
       },
       "original": {
         "owner": "meashgrey",
         "ref": "feat/tui-panel-resize",
-        "repo": "ferref",
+        "repo": "opensource-thosvarley__ferref",
         "type": "github"
       }
     },

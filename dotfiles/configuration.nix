@@ -269,6 +269,7 @@
     # shell tools
     nushell
     alacritty
+    kitty
     # Niri uses this to provide X11 compatibility for Steam and other XWayland apps.
     xwayland-satellite
     tmux
@@ -297,6 +298,8 @@
     typst
     poppler-utils
   ];
+
+  environment.sessionVariables.TERMINAL = "alacritty";
 
   # Make the installed cursor theme discoverable to XWayland's Xcursor loader.
   environment.sessionVariables.XCURSOR_PATH = [

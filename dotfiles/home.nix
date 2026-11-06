@@ -30,6 +30,34 @@
     && builtins.pathExists (./home/skills + "/${name}/SKILL.md")
   ) (builtins.readDir ./home/skills));
 
+  # Replace pre-existing copied skill directories with the managed links, but
+  # only when their contents exactly match the repository copy. Keep a backup
+  # under XDG state so activation never discards a user's differing files.
+  home.activation.migrateCodexSkillDirectories = lib.hm.dag.entryBefore [ "linkGeneration" ] ''
+    skillsSource=${lib.escapeShellArg (toString ./home/skills)}
+    backupRoot=${lib.escapeShellArg "${config.xdg.stateHome}/home-manager/skill-backups"}
+    for source in "$skillsSource"/*; do
+      [ -d "$source" ] || continue
+      [ -f "$source/SKILL.md" ] || continue
+      name="$(basename "$source")"
+      target=${lib.escapeShellArg "${config.home.homeDirectory}/.agents/skills"}/$name
+      if [ -d "$target" ] && [ ! -L "$target" ]; then
+        if ${pkgs.diffutils}/bin/diff -qr "$source" "$target" >/dev/null; then
+          backup="$backupRoot/$name"
+          if [ -e "$backup" ] || [ -L "$backup" ]; then
+            echo "Cannot migrate $target: backup already exists at $backup" >&2
+            exit 1
+          fi
+          run mkdir -p "$backupRoot"
+          run mv "$target" "$backup"
+        else
+          echo "Cannot migrate $target: it differs from the managed skill in $source" >&2
+          exit 1
+        fi
+      fi
+    done
+  '';
+
   # Steam expects its XDG data directory under ~/.local/share. Keep the actual
   # data in /var/lib/steam and expose only a symlink in the home directory.
   home.activation.steamDataOutsideHome = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -115,12 +143,25 @@
     };
   };
 
+  programs.kitty = {
+    enable = true;
+    settings = {
+      include = "${config.xdg.configHome}/kitty/matugen.conf";
+      allow_remote_control = "socket-only";
+      listen_on = "unix:$XDG_RUNTIME_DIR/kitty";
+      # Kitty measures padding in points; 8pt is approximately 10px at the
+      # current 1.25x display scale, matching the former 10px terminal padding.
+      window_padding_width = "8 8";
+      cursor_shape = "block";
+      cursor_blink_interval = 0;
+      shell_integration = "no-cursor";
+    };
+  };
+
   programs.alacritty = {
     enable = true;
-
     settings = {
       general.import = [ "~/.config/alacritty/dank-theme.toml" ];
-
       window = {
         opacity = 0.95;
         padding = {
@@ -128,15 +169,12 @@
           y = 10;
         };
       };
-
       font = {
         size = 11.0;
-
         normal = {
           family = "monospace";
           style = "Regular";
         };
-
         bold = {
           family = "monospace";
           style = "Bold";

@@ -31,7 +31,7 @@
     };
 
     ferref = {
-      url = "github:meashgrey/ferref/feat/tui-panel-resize";
+      url = "github:meashgrey/opensource-thosvarley__ferref/feat/tui-panel-resize";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

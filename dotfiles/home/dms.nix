@@ -24,6 +24,15 @@ let
     fi
     ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme "$theme" || true
   '';
+  kittyThemeHook = pkgs.writeShellScript "matugen-kitty-reload" ''
+    set -eu
+    [ -n "''${XDG_RUNTIME_DIR:-}" ] || exit 0
+    for socket in "$XDG_RUNTIME_DIR"/kitty-*; do
+      [ -S "$socket" ] || continue
+      ${pkgs.kitty}/bin/kitty @ --to "unix:$socket" set-colors --all \
+        ${lib.escapeShellArg "${config.xdg.configHome}/kitty/matugen.conf"} || true
+    done
+  '';
 in {
   home.packages = [ bibataThemes ];
   dconf.settings."org/gnome/desktop/interface".gtk-theme = "adw-gtk3";
@@ -60,9 +69,15 @@ in {
     input_path = '${config.xdg.configHome}/matugen/templates/bibata-color.txt'
     output_path = '${config.xdg.configHome}/matugen/bibata-color'
     post_hook = '${cursorHook}'
+
+    [templates.kitty]
+    input_path = '${config.xdg.configHome}/matugen/templates/kitty.conf'
+    output_path = '${config.xdg.configHome}/kitty/matugen.conf'
+    post_hook = '${kittyThemeHook}'
   '';
   xdg.configFile."matugen/templates/dms-web.user.css".source = ./dms/dms-web.user.css;
   xdg.configFile."matugen/templates/bibata-color.txt".text = "{{colors.primary.default.hex}}";
+  xdg.configFile."matugen/templates/kitty.conf".source = ./dms/kitty.conf;
 
   home.activation.createStylusThemeDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${lib.escapeShellArg "${config.xdg.configHome}/stylus"}
