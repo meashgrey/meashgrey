@@ -6,6 +6,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./modules/audio-fix.nix
     ];
 
   # home-manager configurations
@@ -248,6 +249,7 @@
   environment.systemPackages = with pkgs; [
     (import ./home/dms/bibata-cursors.nix { inherit pkgs; })
     (callPackage ./packages/steam-tui { })
+    (callPackage ./packages/noir { })
     inputs.ferref.packages.${pkgs.stdenv.hostPlatform.system}.default
     vim
     wget
