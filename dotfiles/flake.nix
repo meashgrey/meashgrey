@@ -55,6 +55,15 @@
           {
             nixpkgs.overlays = [
               nur.overlays.default
+              (final: prev: {
+                # The pinned nixpkgs 2.2.5 node_modules hash does not match
+                # the output produced by Bun on this NixOS configuration.
+                opencode = prev.opencode.overrideAttrs (old: {
+                  node_modules = old.node_modules.overrideAttrs (_: {
+                    outputHash = "sha256-prx9dX7kUvs/E3zopkaPk5LXh3xJAy5sZeum/W8L7cA=";
+                  });
+                });
+              })
             ];
 
             home-manager = {

@@ -7,6 +7,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./modules/audio-fix.nix
+      ./modules/test-vm.nix
     ];
 
   # home-manager configurations

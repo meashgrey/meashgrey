@@ -30,6 +30,15 @@
       sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations $argv
     '';
 
+    functions.nix-projects-protect = ''
+      set -l script "$HOME/Projects/meashgrey/dotfiles/scripts/protect-project-devshells.sh"
+      if not test -x "$script"
+        echo "Project GC protection script is missing: $script" >&2
+        return 1
+      end
+      "$script"
+    '';
+
     interactiveShellInit = ''
       fish_add_path --global --path "$HOME/.cargo/bin"
       set -g fish_color_cwd cyan

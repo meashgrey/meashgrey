@@ -1,5 +1,6 @@
 {
     "workbench.colorTheme": "Dynamic Base16 DankShell (Dark)",
+    "editor.tabFocusMode": false,
     "window.menuBarVisibility": "toggle",
     "terminal.integrated.fontFamily": "Cascadia Code",
     "terminal.integrated.initialHint": false,
@@ -24,5 +25,11 @@
             "before": ["Shift+x"],
             "command": ["workbench.action.closeActiveEditor"]
         }
-    ]
+    ],
+    "explorer.confirmPasteNative": false,
+    "gitlens.graph.details.location": "auto",
+    "gitlens.ai.enabled": false,
+    "gitlens.statusBar.enabled": false,
+    "catppuccin.italicComments": false,
+    "catppuccin.italicKeywords": false,
 }

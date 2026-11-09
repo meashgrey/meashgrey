@@ -125,6 +125,17 @@
   "monoFontFamily": "Cascadia Code",
   "useSystemSoundTheme": true,
   "soundLogin": true,
+  "notificationRules": [
+    {
+      "enabled": true,
+      "field": "desktopEntry",
+      "pattern": "wechat",
+      "matchType": "exact",
+      "action": "mute",
+      "urgency": "default",
+      "bypassDnd": false
+    }
+  ],
   "osdPowerProfileEnabled": true,
   "barConfigs": [
     {

@@ -1,0 +1,5 @@
+# Local test fixtures only. The VM module itself lives in
+# dotfiles/modules/test-vm.nix and the rest of this directory is not
+# part of the dotfiles configuration.
+*
+!.gitignore
