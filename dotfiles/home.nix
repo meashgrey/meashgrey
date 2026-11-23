@@ -143,6 +143,21 @@
     };
   };
 
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+      prompt = "enabled";
+      aliases = {
+        co = "pr checkout";
+        pv = "pr view";
+      };
+    };
+    # Repository access goes through SSH keys, so gh should not install
+    # itself as the HTTPS credential helper for github.com.
+    gitCredentialHelper.enable = false;
+  };
+
   programs.kitty = {
     enable = true;
     settings = {

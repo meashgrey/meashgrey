@@ -52,6 +52,8 @@
     no_proxy = "127.0.0.1,localhost,::1";
   };
 
+  services.gnome.gnome-keyring.enable = true;
+
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -128,6 +130,13 @@
     "d /var/lib/steam/ashgrey/Steam 0700 ashgrey users -"
   ];
 
+  # Docker for container-based development. Membership in the docker group is
+  # root-equivalent on the host, so only the desktop user gets it.
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+  };
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -185,7 +194,7 @@
   users.users."ashgrey" = {
     isNormalUser = true;
     description = "meashgrey";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       kdePackages.kate
       kdePackages.okular
@@ -251,6 +260,7 @@
     (import ./home/dms/bibata-cursors.nix { inherit pkgs; })
     (callPackage ./packages/steam-tui { })
     (callPackage ./packages/noir { })
+    (callPackage ./packages/openpencil { })
     inputs.ferref.packages.${pkgs.stdenv.hostPlatform.system}.default
     vim
     wget
@@ -291,6 +301,7 @@
     opencode
     bun
     nodejs_22
+    wrangler
     (callPackage ./packages/wordcraft { })
     python3
     uv
